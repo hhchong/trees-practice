@@ -1,0 +1,119 @@
+Trees consist of nodes!
+    Root node - at top of tree, has 0 or more child nodes
+    Children - nodes directly below a node
+    Parent - node directly above a node
+    leaf node - no kids
+
+    You can create a tree class, but nodes are trees so you don't typically create a tree class. 
+
+#initialize Node for tree
+class Node(object):
+    """Node in a tree."""
+
+    def __init__(self, data, children):
+        self.data = data
+        self.children = children
+_______________________
+
+DEPTH FIRST SEARCH
+#how to find a node with data
+class Node(object):  # ...
+    def find(self, data):
+        """Return node object with this data.
+
+        Start here. Return None if not found.
+        """
+
+        to_visit = [self]
+
+        while to_visit:
+            current = to_visit.pop()
+            #keep popping from the end down all the kids and the kids kid, then once you finish searching the kids you go to the next sibling
+
+            if current.data == data:
+                return current
+
+            to_visit.extend(current.children)
+
+^this is a depth-first search (DFS) by using a STACK to_visit
+__________________________
+
+BREADTH FIRST SEARCH
+
+def find(self, data):
+    to_visit = [self]
+
+    while to_visit:
+        current = to_visit.pop(0)
+
+        if current.data == data:
+            return current
+
+        to_visit.extend(current.children)
+^ uses pop(0) to pop off the first item from the list, rather than the last! it makes to_visit a QUEUE .... searched "horizontally"
+_____________
+
+BINARY TREES
+Each node has up to two children - not all trees are binary.
+    
+    Complete binary tree - all levels filled (from left to right) except maybe the last level, which is filled left to right. Can be represented with a single list
+
+    Full binary tree - every node has 0 OR 2 children.. nOT 1
+
+    Perfect binary tree - all have 2 kids, like a pyramid. rare in interviews, do not assume this is the case
+
+BINARY SEARCH TREES
+    Each node fits a specific ordering property - imposes a condition that left descendants <= n < all right descendants.
+
+    Used for fast searching! Versatile... Insertion, Deletion, and Search (aka find) all take O(log n) time on average, O(n) for worst case :)
+
+        O(log n) because every choice reduces option by half
+
+    BST is like guessing a number 1 - 100 and you'll only be told if it's greater, less than, or correct.
+    So you cut in half ... and cut in half again.. until you get the number!
+
+#example of initiallizing BST node! init LEFT AND RIGHT 
+
+    class BinarySearchNode(object):
+    """Binary tree node."""
+
+    def __init__(self, data, left=None, right=None):
+        self.data = data
+
+        self.left = left
+        self.right = right
+
+    def __repr__(self):
+        """Debugging-friendly representation."""
+
+        return "<BinaryNode {data}>".format(data=self.data)
+
+# SEARCH in a BST! this is a pre-order traversal.. visits current node before it's child nodes. current, left, right.
+
+def find(self, sought):
+    current = self
+
+    while current:
+
+        if current.data == sought:
+            return current
+
+        elif sought < current.data:
+            current = current.left
+
+        elif sought > current.data:
+            current = current.right
+
+^ returns None if sought is not in tree
+ASK interviewer if it is a binary tree or a binary search tree!
+_____________
+
+PRIORITY QUEUE AND BINARY HEAPS (MIN HEAP / MAX HEAP)
+
+In a PRIORITY QUEUE, the order of items in a queue is determined by their priority.
+    
+    You can use insert into a list -- O(n) -- or sort a list -- O(n log n)... but the binary heap allows it to be O(log n)!!
+
+Min heap - complete binary tree w/ smallest at front
+Max heap - complete binary tree w/ largest at front
+
